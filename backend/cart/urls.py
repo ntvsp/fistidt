@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cart.views import CartAddProduct
+from cart.views import AddToCartAPIView
 
 urlpatterns = [
-    path('add/<int:pk>/', CartAddProduct.as_view(), name='add product to cart'),
+    path('add/<int:pk>', AddToCartAPIView.as_view(), name='add product to cart'),
 ]

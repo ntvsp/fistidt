@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 from authentication.models import AppUser
-from cart.models import Cart
+from cart.models import Cart,CartItem
 
 class CartSerializers(serializers.ModelSerializer):
 
@@ -9,7 +9,7 @@ class CartSerializers(serializers.ModelSerializer):
         model = Cart
         fields = '__all__'
 
-    def create(self, validated_data):
-        cart = Cart.objects.create(**validated_data)
-        cart.save
-        return cart
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = '__all__'

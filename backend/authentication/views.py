@@ -31,9 +31,6 @@ class LoginView(APIView):
         user = AppUser.objects.filter(username=username).first()
         password_hash = PasswordHasher().hash(re_password)
         # user = authenticate(username=username, password=password)
-        # find username => user
-        # check user.password = hash(password)
-
         if ph.verify(user.password,re_password):
             refresh = RefreshToken.for_user(user)
             serializer = UserSerializer(user)
