@@ -4,15 +4,17 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from product.filter import ProductFilter
 from .models import Product
 from .serializers import ProductSerializer
 
 
 
-class ProductListAPIView(APIView):
+class ProductAPIView(APIView):
     def get(self, request):
+        f = ProductFilter(request.GET, queryset=Product.objects.all())
         products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(f.qs, many=True)
         return Response(serializer.data)
     
     @permission_classes([IsAuthenticated])
@@ -27,7 +29,7 @@ class ProductListAPIView(APIView):
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ProductDetailAPIView(APIView):
-    def get(sel, pk):
+    def get(self,request, pk):
         try:
             product = Product.objects.get(pk=pk)
         except Product.DoesNotExist:

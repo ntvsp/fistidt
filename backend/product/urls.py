@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from product.views import ProductDetailAPIView, ProductListAPIView
+from product.views import ProductDetailAPIView, ProductAPIView
 
 urlpatterns = [
-    path('products/', ProductListAPIView.as_view(), name='product-list'),
+    path('products/', ProductAPIView.as_view(), name='product-list'),
     path('products/<int:pk>/', ProductDetailAPIView.as_view(), name='product-detail'),
 ]
