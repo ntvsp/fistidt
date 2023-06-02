@@ -1,9 +1,10 @@
-from asyncio import AbstractServer
+
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
 
-class AppUser(AbstractServer):
+class User(AbstractUser):
     balance = models.IntegerField()
     date_of_birth = models.DateField()
     def __str__(self):
