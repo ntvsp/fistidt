@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-
+from django.contrib.auth.hashers import make_password
 from authentication.models import AppUser
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,9 +12,10 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
         user = AppUser.objects.create(**validated_data)
         return user
-    
+
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields didnt match."})

@@ -20,6 +20,9 @@ class ProductAPIView(APIView):
     @permission_classes([IsAuthenticated])
     def post(self, request):
         try:
+            request.data._mutable = True
+            request.data['owner'] = request.user.id
+            request.data._mutable = False
             serializer = ProductSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -54,4 +57,4 @@ class ProductDetailAPIView(APIView):
         except Product.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         product.delete()
-        return Response('deleted',status=status.HTTP_204_NO_CONTENT)
+        return Response('deleted',status=status.HTTP_204_NO_CONTENT, )
