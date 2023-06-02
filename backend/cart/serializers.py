@@ -1,15 +1,19 @@
 
 from rest_framework import serializers
-from authentication.models import AppUser
+from authentication.serializers import UserSerializer
+from product.serializers import ProductSerializer
 from cart.models import Cart,CartItem
 
-class CartSerializers(serializers.ModelSerializer):
-
-    class Meta:
-        model = Cart
-        fields = '__all__'
-
 class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+
     class Meta:
         model = CartItem
+        fields = '__all__'
+
+class CartSerializers(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True, read_only=True)
+    user = UserSerializer()
+    class Meta:
+        model = Cart
         fields = '__all__'

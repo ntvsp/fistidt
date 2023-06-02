@@ -18,5 +18,5 @@ from django.urls import path
 from cart.views import AddToCartAPIView
 
 urlpatterns = [
-    path('add/<int:pk>', AddToCartAPIView.as_view(), name='add product to cart'),
+    path('add/<int:pk>', AddToCartAPIView.as_view(), name='add-cart'),
 ]
