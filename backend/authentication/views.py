@@ -1,8 +1,10 @@
 # authentication/views.py
 
+from argon2 import PasswordHasher
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from authentication.models import AppUser
 from .serializers import UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
@@ -24,9 +26,15 @@ class RegisterView(APIView):
 class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
-        password = request.data.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
+        re_password = request.data.get('password')
+        ph = PasswordHasher()
+        user = AppUser.objects.filter(username=username).first()
+        password_hash = PasswordHasher().hash(re_password)
+        # user = authenticate(username=username, password=password)
+        # find username => user
+        # check user.password = hash(password)
+
+        if ph.verify(user.password,re_password):
             refresh = RefreshToken.for_user(user)
             serializer = UserSerializer(user)
             return Response({

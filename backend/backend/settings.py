@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'authentication',
     'drf_yasg',
     'product',
+    'cart',
 
 ]
 

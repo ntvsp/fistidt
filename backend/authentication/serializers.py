@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from authentication.models import AppUser
-
+from argon2 import PasswordHasher
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
@@ -12,7 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        validated_data['password'] = make_password(validated_data['password'])
+        # validated_data['password'] = make_password(validated_data['password'])
+        validated_data['password'] = PasswordHasher().hash(validated_data['password'])
         user = AppUser.objects.create(**validated_data)
         return user
 
