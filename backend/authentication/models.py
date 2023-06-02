@@ -4,8 +4,8 @@ from django.db import models
 
 # Create your models here.
 
-# class Auth_User(AbstractUser):
-#     balance = models.IntegerField()
-#     date_of_birth = models.DateField()
-#     def __str__(self):
-#         return self.username
+class AppUser(AbstractUser):
+    balance = models.IntegerField(default=0)
+    date_of_birth = models.DateField(null=True)
+    def __str__(self):
+        return self.username

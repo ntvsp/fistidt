@@ -1,17 +1,18 @@
 
 from rest_framework import serializers
-from django.contrib.auth.models import User
+
+from authentication.models import AppUser
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = AppUser
         fields = ('username', 'email', 'first_name','last_name' ,'password2' , 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        user = AppUser.objects.create(**validated_data)
         return user
     
     def validate(self, attrs):
