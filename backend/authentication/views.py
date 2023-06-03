@@ -27,11 +27,11 @@ class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         re_password = request.data.get('password')
-        ph = PasswordHasher()
-        user = AppUser.objects.filter(username=username).first()
-        password_hash = PasswordHasher().hash(re_password)
-        # user = authenticate(username=username, password=password)
-        if ph.verify(user.password,re_password):
+        # ph = PasswordHasher()
+        # user = AppUser.objects.filter(username=username).first()
+        # password_hash = PasswordHasher().hash(re_password)
+        user = authenticate(username=username, password=re_password)
+        if user:
             refresh = RefreshToken.for_user(user)
             serializer = UserSerializer(user)
             return Response({
