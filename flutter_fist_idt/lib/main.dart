@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fist_idt/modules/authen/page/login/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'authen/page/login/login_sreen.dart';
+import 'modules/authen/page/login/login_sreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ Future<void> initServices() async {
   await GetStorage.init().then((value) {
     return null;
   });
+  Get.put(UserController());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: false,
       ),
-      home: const LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }

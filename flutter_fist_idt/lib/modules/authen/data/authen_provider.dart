@@ -11,11 +11,15 @@ class AuthenProvider {
       {required String username, required String password}) async {
     try {
       final data = {"username": username, "password": password};
-      final response = await dio.get('/auth/login', data: data);
+      final response = await dio.post('/auth/login/', data: data);
       if (response.statusCode == 200) {
-        return response.data['data']
-            .map<UserModel>((json) => UserModel.fromJson(json))
-            .toList();
+        token = response.data['access'];
+        //save to getstorage
+        return UserModel.fromJson(response.data['user']);
+      }
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        throw e.response?.data['error'];
       }
     } catch (e) {
       throw e.toString();

@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cart.views import AddToCartAPIView
+from cart.views import AddToCartAPIView,CartAPIView
 
 urlpatterns = [
     path('add/<int:pk>', AddToCartAPIView.as_view(), name='add-cart'),
+    path('cart/', CartAPIView.as_view(), name='cart-infor'),
+
 ]

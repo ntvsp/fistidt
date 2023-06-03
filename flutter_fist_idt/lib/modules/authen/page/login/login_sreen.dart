@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fist_idt/modules/authen/page/login/login_controller.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  LoginScreen({super.key});
+  final usernameTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  final controller = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -25,7 +28,7 @@ class LoginScreen extends StatelessWidget {
         MaterialState.focused,
       };
       if (states.any(interactiveStates.contains)) {
-        return Colors.blue;
+        return Colors.green;
       }
       return Colors.blue;
     }
@@ -40,6 +43,7 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
+              controller: usernameTextController,
               decoration: const InputDecoration(
                 hintText: "Username",
               ),
@@ -48,6 +52,7 @@ class LoginScreen extends StatelessWidget {
               height: 12,
             ),
             TextFormField(
+              controller: passwordTextController,
               decoration: const InputDecoration(
                 hintText: "Password",
               ),
@@ -65,7 +70,9 @@ class LoginScreen extends StatelessWidget {
                         backgroundColor:
                             MaterialStateProperty.resolveWith(getColor2),
                       ),
-                      onPressed: () {},
+                      onPressed: () => controller.login(
+                          username: usernameTextController.text,
+                          password: passwordTextController.text),
                       child: const Text(
                         "Login",
                       )),
