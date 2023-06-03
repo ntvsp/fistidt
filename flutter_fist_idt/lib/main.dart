@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-import 'authen/login/login_sreen.dart';
+import 'authen/page/login/login_sreen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  initServices();
   runApp(const MyApp());
+}
+
+Future<void> initServices() async {
+  await GetStorage.init().then((value) {
+    return null;
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +24,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primaryColor: Colors.white,
+        primarySwatch: Colors.blue,
+        useMaterial3: false,
       ),
       home: const LoginScreen(),
     );
