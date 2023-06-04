@@ -15,7 +15,6 @@ class ProductAPIView(APIView):
     @swagger_auto_schema(operation_description="get all product")
     def get(self, request):
         f = ProductFilter(request.GET, queryset=Product.objects.all())
-        products = Product.objects.all()
         serializer = GetProductSerializer(f.qs, many=True)
         return Response(serializer.data)
     
