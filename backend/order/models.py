@@ -11,6 +11,6 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     purchased_price = models.DecimalField(max_digits=10, decimal_places=2)
 
-    @classmethod
+    @classmethod #this is factory contructor
     def create_from_cart_item(cls, cartItem : CartItem, order:Order):
         return cls(product=cartItem.product, purchased_price=cartItem.product.price,quantity=cartItem.quantity, order=order )
