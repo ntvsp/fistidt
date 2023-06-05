@@ -2,19 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fist_idt/modules/authen/page/login/login_controller.dart';
 import 'package:get/get.dart';
 
-class AuthenScreen extends StatelessWidget {
-  AuthenScreen({super.key});
-  final controller = Get.put(UserController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => IndexedStack(
-          index: controller.authenPage.value,
-          children: [LoginScreen(), AuthenScreen()],
-        ));
-  }
-}
-
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   final usernameTextController = TextEditingController();
@@ -101,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                         backgroundColor:
                             MaterialStateProperty.resolveWith(getColor2),
                       ),
-                      onPressed: () => controller.authenPage.value = 1,
+                      onPressed: () => Get.to(() => RegisterSreen()),
                       child: const Text(
                         "Register",
                       )),
@@ -176,7 +163,7 @@ class RegisterSreen extends StatelessWidget {
               height: 12,
             ),
             TextFormField(
-              controller: passwordTextController,
+              controller: password2TextController,
               decoration: const InputDecoration(
                 hintText: "re-type password",
               ),
@@ -194,7 +181,7 @@ class RegisterSreen extends StatelessWidget {
                         backgroundColor:
                             MaterialStateProperty.resolveWith(getColor2),
                       ),
-                      onPressed: () => controller.authenPage.value = 0,
+                      onPressed: () => Get.to(() => LoginScreen()),
                       child: const Text(
                         "Login",
                       )),

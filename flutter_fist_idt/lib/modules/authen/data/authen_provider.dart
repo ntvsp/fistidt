@@ -37,8 +37,14 @@ class AuthenProvider {
         "password": password,
         "password2": password2
       };
-      final response = await dio.get('/auth/register', data: data);
+      final response = await dio.post('/auth/register/', data: data);
       return response.statusCode == 200;
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        throw e.response?.data['error'];
+      } else {
+        throw e.message ?? e.toString();
+      }
     } catch (e) {
       throw e.toString();
     }

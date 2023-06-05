@@ -35,7 +35,7 @@ class UserController extends GetxController {
     });
     if (result != null) {
       Get.offAll(() => LoginScreen());
-      Notify.success("login success");
+      Notify.success("register success");
     }
   }
 }

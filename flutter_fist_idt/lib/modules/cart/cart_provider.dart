@@ -29,6 +29,19 @@ class CartProvider {
     return null;
   }
 
+  Future<void> createOrder() async {
+    try {
+      await dio.post('/order/order/');
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        throw e.response?.data['error'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+    return;
+  }
+
   Future<List<CartItemModel>?> addProductToCart(int productId) async {
     try {
       final response = await dio.put('/cart/add/$productId');

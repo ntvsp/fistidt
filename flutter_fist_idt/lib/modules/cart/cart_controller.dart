@@ -20,7 +20,14 @@ class CarController extends GetxController {
 
   @override
   void onInit() {
-    getListCartItem();
+    // getListCartItem();
     super.onInit();
+  }
+
+  Future<void> createOrder() async {
+    await _provider.createOrder().catchError((err) {
+      return Notify.error(err);
+    });
+    listCartItemModel.clear();
   }
 }
