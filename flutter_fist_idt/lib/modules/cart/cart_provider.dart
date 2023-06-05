@@ -20,9 +20,7 @@ class CartProvider {
             .toList();
       }
     } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        throw e.response?.data['error'];
-      }
+      throw e.response?.data ?? e.toString();
     } catch (e) {
       throw e.toString();
     }
@@ -33,9 +31,7 @@ class CartProvider {
     try {
       await dio.post('/order/order/');
     } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        throw e.response?.data['error'];
-      }
+      throw e.response?.data ?? e.toString();
     } catch (e) {
       throw e.toString();
     }

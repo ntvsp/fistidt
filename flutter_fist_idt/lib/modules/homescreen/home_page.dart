@@ -45,7 +45,11 @@ class MasterPage extends StatelessWidget {
         body: Obx(
           () => IndexedStack(
             index: controller.indexHomePage.value,
-            children: [HomePage(), CartPage()],
+            children: [
+              HomePage(),
+              CartPage(),
+              const Center(child: Text("pls view in postman :D"))
+            ],
           ),
         ));
   }

@@ -20,6 +20,8 @@ class AuthenProvider {
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
         throw e.response?.data['error'];
+      } else {
+        throw e.response?.data ?? e.toString();
       }
     } catch (e) {
       throw e.toString();
@@ -43,7 +45,7 @@ class AuthenProvider {
       if (e.response?.statusCode == 401) {
         throw e.response?.data['error'];
       } else {
-        throw e.message ?? e.toString();
+        throw e.response?.data ?? e.toString();
       }
     } catch (e) {
       throw e.toString();
