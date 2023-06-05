@@ -49,7 +49,7 @@ class ProductAPIView(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response('Unauthoriz11ed',status=status.HTTP_401_UNAUTHORIZED)
+        return Response('Unauthorized',status=status.HTTP_401_UNAUTHORIZED)
 
 @permission_classes([IsAuthenticated])
 class ProductDetailAPIView(APIView):
