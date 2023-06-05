@@ -11,9 +11,9 @@ from .serializers import GetProductSerializer, ProductSerializer
 from drf_yasg.utils import swagger_auto_schema
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required 
+from drf_yasg import openapi
 
 class ProductAPIView(APIView):
-    @swagger_auto_schema(operation_description="get all product")
     def get(self, request):
         products = ProductFilter(request.GET, queryset=Product.objects.all())
         paginator = CustomPagination()
@@ -21,6 +21,21 @@ class ProductAPIView(APIView):
         serializer = GetProductSerializer(paginated_products, many=True)
         return paginator.get_paginated_response(serializer.data)
     
+    @swagger_auto_schema( 
+        request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'name': openapi.Schema(type=openapi.TYPE_STRING),
+            'price': openapi.Schema(type=openapi.TYPE_STRING),
+            'description': openapi.Schema(type=openapi.TYPE_STRING),
+            'image': openapi.Schema(type=openapi.TYPE_FILE),
+        },
+        required=['name'],
+    ),
+    responses={
+        201: 'Created',
+        400: 'Bad Request',
+    },)
     @method_decorator(permission_classes([IsAuthenticated]))
     def post(self, request):
         if  request.user.is_authenticated:
@@ -46,6 +61,21 @@ class ProductDetailAPIView(APIView):
         serializer = ProductSerializer(product)
         return Response(serializer.data)
 
+    @swagger_auto_schema( 
+        request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'name': openapi.Schema(type=openapi.TYPE_STRING),
+            'price': openapi.Schema(type=openapi.TYPE_STRING),
+            'description': openapi.Schema(type=openapi.TYPE_STRING),
+            'image': openapi.Schema(type=openapi.TYPE_FILE),
+        },
+        required=['name'],
+    ),
+    responses={
+        200: 'ok',
+        400: 'Bad Request',
+    },)
     def put(self, request, pk):
         try:
             product = Product.objects.get(pk=pk)
@@ -54,7 +84,7 @@ class ProductDetailAPIView(APIView):
         serializer = ProductSerializer(product, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

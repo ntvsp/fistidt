@@ -5,12 +5,31 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from authentication.models import AppUser
-from .serializers import UserSerializer
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+
 
 class RegisterView(APIView):
+    @swagger_auto_schema( 
+        request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING),
+            'password': openapi.Schema(type=openapi.TYPE_STRING),
+            'password2': openapi.Schema(type=openapi.TYPE_STRING),
+
+        },
+        required=['username', 'password','password2'],
+    ),
+    responses={
+        201: 'Created',
+        400: 'Bad Request',
+    },)
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,6 +43,20 @@ class RegisterView(APIView):
 
 
 class LoginView(APIView):
+    @swagger_auto_schema( 
+        request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'username': openapi.Schema(type=openapi.TYPE_STRING),
+            'password': openapi.Schema(type=openapi.TYPE_STRING),
+
+        },
+        required=['username', 'password'],
+    ),
+    responses={
+        200: 'Success',
+        401: 'Invalid credentials',
+    })
     def post(self, request):
         username = request.data.get('username')
         re_password = request.data.get('password')

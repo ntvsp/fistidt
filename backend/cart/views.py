@@ -9,7 +9,7 @@ from product.models import Product
 
 @permission_classes([IsAuthenticated])
 class AddToCartAPIView(APIView):
-
+    
     def put(self, request, pk):
         try:
             cart = Cart.objects.filter(user=request.user).first()
