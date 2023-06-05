@@ -4,6 +4,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from .pagination import CustomPagination
 from product.filter import ProductFilter
 from .models import Product
 from .serializers import GetProductSerializer, ProductSerializer
@@ -14,9 +15,11 @@ from django.contrib.auth.decorators import login_required
 class ProductAPIView(APIView):
     @swagger_auto_schema(operation_description="get all product")
     def get(self, request):
-        f = ProductFilter(request.GET, queryset=Product.objects.all())
-        serializer = GetProductSerializer(f.qs, many=True)
-        return Response(serializer.data)
+        products = ProductFilter(request.GET, queryset=Product.objects.all())
+        paginator = CustomPagination()
+        paginated_products = paginator.paginate_queryset(products.qs, request)
+        serializer = GetProductSerializer(paginated_products, many=True)
+        return paginator.get_paginated_response(serializer.data)
     
     @method_decorator(permission_classes([IsAuthenticated]))
     def post(self, request):

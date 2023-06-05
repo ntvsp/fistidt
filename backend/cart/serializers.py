@@ -1,11 +1,11 @@
 
 from rest_framework import serializers
 from authentication.serializers import UserSerializer
-from product.serializers import ProductSerializer
+from product.serializers import GetProductSerializer
 from cart.models import Cart,CartItem
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer()
+    product = GetProductSerializer()
 
     class Meta:
         model = CartItem

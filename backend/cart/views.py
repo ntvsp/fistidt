@@ -28,6 +28,6 @@ class CartAPIView(APIView):
         try:
             cart = Cart.objects.filter(user=request.user).first()
             serializer = CartSerializers(cart)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(str(e), status=status.HTTP_404_NOT_FOUND)
