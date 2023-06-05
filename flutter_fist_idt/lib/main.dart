@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'modules/authen/page/login/login_sreen.dart';
+import 'modules/homescreen/home_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,8 @@ void main() {
 }
 
 Future<void> initServices() async {
+  Get.lazyPut(() => HomeController());
+
   await GetStorage.init().then((value) {
     return null;
   });
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: false,
       ),
-      home: LoginScreen(),
+      home: AuthenScreen(),
     );
   }
 }
