@@ -14,9 +14,9 @@ class HomeProvider {
   }
   Future<List<ProductModel>?> getListProduct() async {
     try {
-      final response = await dio.get('/product/products/');
+      final response = await dio.get('/product/products/?page_size=999');
       if (response.statusCode == 200) {
-        return (response.data as List)
+        return (response.data['results'] as List)
             .map((e) => ProductModel.fromJson(e))
             .toList();
       }
